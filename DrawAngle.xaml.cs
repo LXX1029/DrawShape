@@ -624,5 +624,56 @@ namespace Canvas画线2
             }
         }
         #endregion Grid面板
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            var path = new Path();
+            var geometry = new PathGeometry();
+            path.Stroke = Brushes.Red;
+            path.StrokeThickness = 2;
+            path.SnapsToDevicePixels = true;
+            //path.Fill = Brushes.Orange;
+            var segment1 = new LineSegment(new Point(0, 11), true);
+            var segment2 = new LineSegment(new Point(11, 11), true);
+            var seg = new ArcSegment(new Point(6, 11), new Size(1, 1), 0, false, SweepDirection.Clockwise, true);
+
+            var figure1 = new PathFigure(new Point(11, 0), new PathSegment[] { segment1, segment2 }, false);
+            var figure2 = new PathFigure(new Point(0, 5), new PathSegment[] { seg }, false);
+            geometry.Figures.Add(figure1);
+            geometry.Figures.Add(figure2);
+            path.Data = geometry;
+            Canvas.SetTop(path, 100);
+            Canvas.SetLeft(path, 100);
+            this.canvas.Children.Add(path);
+            string filePath = "D:\\1.png";
+
+            var size = new Size(100, 100);
+            //var rect = new Rectangle() { Width = 100, Height = 100, Fill = Brushes.Red, Stroke = Brushes.Orange, StrokeThickness = 1 };
+            //rect.Measure(size);
+            //rect.Arrange(new Rect(0, 0, size.Width, size.Height));
+            ////var dv = new DrawingVisual();
+            ////using (var ctx = dv.RenderOpen())
+            ////{
+            ////    var vb = new VisualBrush(grid);
+            ////    ctx.DrawRectangle(vb, null, new Rect(0, 0, 100, 100));
+            ////}
+            //var render = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
+            //render.Render(rect);
+
+            size = new Size(13, 13);
+            path.Measure(size);
+            path.Arrange(new Rect(0, 0, size.Width, size.Height));
+            var render = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
+            render.Render(path);
+            var frames = BitmapFrame.Create(render);
+            var pngEncoder = new PngBitmapEncoder();
+            pngEncoder.Frames.Add(frames);
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                pngEncoder.Save(stream);
+            }
+            MessageBox.Show("save successfully");
+            System.Diagnostics.Process.Start(filePath);
+        }
     }
 }

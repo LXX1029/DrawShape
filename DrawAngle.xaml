@@ -74,8 +74,15 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <GroupBox Header="Canvas">
-                <Canvas x:Name="canvas" Grid.Row="1" Background="Gray" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Canvas x:Name="canvas" Grid.Row="0" Background="Gray" PreviewMouseLeftButtonDown="canvas_PreviewMouseLeftButtonDown"
                 PreviewMouseMove="canvas_PreviewMouseMove" PreviewMouseLeftButtonUp="canvas_PreviewMouseLeftButtonUp" />
+                    <Button x:Name="btnSave" Grid.Row="1" Content="Save" Width="100" Height="30" Style="{x:Null}" Click="btnSave_Click"/>
+                </Grid>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Grid">
                 <Grid x:Name="gridRegion" Grid.Row="1" Background="Gray"  PreviewMouseLeftButtonDown="gridRegion_PreviewMouseLeftButtonDown" PreviewMouseMove="gridRegion_PreviewMouseMove" PreviewMouseLeftButtonUp="gridRegion_PreviewMouseLeftButtonUp">
